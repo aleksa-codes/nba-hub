@@ -31,7 +31,10 @@ export async function generateMetadata({
   params: Promise<{ teamId: string }>
 }): Promise<Metadata> {
   const { teamId } = await params
-  const team = (await getTeamDetails(teamId)) as any
+  const team = (await getTeamDetails(teamId)) as
+    | Record<string, unknown>
+    | null
+    | ReturnType<typeof JSON.parse>
 
   if (!team) {
     return {
